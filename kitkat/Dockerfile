@@ -18,7 +18,11 @@ ENV PATH=/java/jdk1.6.0_45/bin:$PATH
 RUN echo "export PATH=\$JAVA_HOME/bin:\$PATH" > /etc/profile.d/java_path.sh
 RUN echo "PATH=\"/java/jdk1.6.0_45/bin:\$PATH\"" >> /etc/skel/.profile
 RUN echo "PATH=\"/java/jdk1.6.0_45/bin:\$PATH\"" >> /root/.profile
-RUN sed -i 's/exec sudo -E -u aosp \$args/exec sudo -E -u aosp env \"PATH=$PATH\" \$args/g' /root/docker_entrypoint.sh
+#RUN sed -i 's/exec sudo -E -u aosp \$args/exec sudo -E -u aosp env \"PATH=$PATH\" \$args/g' /root/docker_entrypoint.sh
+
+
+COPY entrypoint.sh /root/docker_entrypoint.sh
+ENTRYPOINT ["/root/docker_entrypoint.sh"]
 
 # Build the file:
 #  - copy jdk-6u45-linux-x64.bin to the current directory
@@ -29,3 +33,9 @@ RUN sed -i 's/exec sudo -E -u aosp \$args/exec sudo -E -u aosp env \"PATH=$PATH\
 #  - curl -O https://raw.githubusercontent.com/kylemanna/docker-aosp/master/tests/build-kitkat.sh
 #  - chmod +x build-kitkat.sh
 #  - ./build-kitkat.sh docker
+
+# Start emulator (C:\Users\matth\AppData\Local\Android\Sdk\tools)
+#  - .\emulator.exe -avd Nexus_4_API_19 -writable-system -no-boot-anim -selinux permissive -no-snapshot-load
+
+# Copy build results
+#  - docker cp 5bd60a210cc9:/aosp/out/target/product/generic/system ./out_dexhunter
