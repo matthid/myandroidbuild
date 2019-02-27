@@ -39,3 +39,7 @@ ENTRYPOINT ["/root/docker_entrypoint.sh"]
 
 # Copy build results
 #  - docker cp 5bd60a210cc9:/aosp/out/target/product/generic/system ./out_dexhunter
+
+# Trace
+#  - logcat
+#  - set `ps | grep zygote` ; strace -p $2 -f -tt -T -s 500 -o /data/local/tmp/strace/zygote.txt
